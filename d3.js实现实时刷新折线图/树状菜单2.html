@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>testD3-26-CollapsibleTree.html</title>
+		<!--<script type="text/javascript" src="d3.js"></script>-->
+		<script src="V3/d3.v3.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			.node circle {
+				fill: yellow;
+				stroke: red;
+				stroke-width: 1.5px;
+			}
+			
+			.node {
+				font: 10px sans-serif;
+			}
+			
+			.link {
+				fill: none; 
+				stroke: #ccc;
+				stroke-width: 1.5px;
+			}
+			.panel_img,.g_panel_box>.foldBtn{display: none;}
+			svg{background: #000;}
+		</style>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			//主要数据
+			var site_mainData = {
+				"name": "中国电站",
+				"power":"121500",
+				"lv":1,
+				"children": [		
+					{
+						"name": "广西逆变器1" ,
+						"lv":2,
+						"sNum":"152452ac",//序号
+						"manufacturer":"growatt",//制造商
+						"model":"yh1000456",//型号
+						"power":"12150",
+						"children": [
+							{
+								"name": "桂林组串",
+								"lv":3,
+								"children":[
+									{
+										"name": "",
+										"lv":4,
+									}
+								],
+								"list":[//面板数据
+									{
+										name:"绝望的面板1",
+										sNum:"1",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.0",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:1,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:1,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:1,
+										id:11,
+										direction:0,//方向0竖向，1横向
+										
+									},
+									{
+										name:"绝望的面板2",
+										sNum:"2",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:0,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:1,
+										id:12,
+										direction:0,//方向0竖向，1横向
+									},
+									{
+										name:"绝望的面板2sdf",
+										sNum:"3",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:2,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:1,
+										id:13,
+										direction:0,//方向0竖向，1横向
+									},
+									{
+										name:"绝望的面板1",
+										sNum:"1",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.0",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:1,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:11,
+										direction:0,//方向0竖向，1横向
+										
+									},
+									{
+										name:"绝望的面板2",
+										sNum:"2",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:0,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:12,
+										direction:0,//方向0竖向，1横向
+									},
+									{
+										name:"绝望的面板2sdf",
+										sNum:"3",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:2,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:13,
+										direction:0,//方向0竖向，1横向
+									},
+									{
+										name:"绝望的面板1",
+										sNum:"1",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.0",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:1,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:11,
+										direction:0,//方向0竖向，1横向
+										
+									},
+									{
+										name:"绝望的面板2",
+										sNum:"2",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:0,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:12,
+										direction:0,//方向0竖向，1横向
+									},
+									{
+										name:"绝望的面板2sdf",
+										sNum:"3",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:2,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:13,
+										direction:0,//方向0竖向，1横向
+									},
+									{
+										name:"绝望的面板1",
+										sNum:"1",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.0",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:1,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:11,
+										direction:0,//方向0竖向，1横向
+										
+									},
+									{
+										name:"绝望的面板2",
+										sNum:"2",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:0,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:12,
+										direction:0,//方向0竖向，1横向
+									},
+									{
+										name:"绝望的面板2sdf",
+										sNum:"3",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:2,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:13,
+										direction:0,//方向0竖向，1横向
+									},
+								],
+								
+							}, 
+							
+						]
+					}, 
+					
+					{
+						"name": "广西逆变器2" ,
+						"lv":2,
+						"sNum":"152452ac",//序号
+						"manufacturer":"growatt",//制造商
+						"model":"yh1000456",//型号
+						"power":"2150",
+						"children": [
+							
+							{
+								"name": "柳州组串",
+								"lv":3,
+								"children":[
+									{
+										"name": "",
+										"lv":4,
+									}
+								],
+								"list":[
+									{
+										name:"绝望的面板1",
+										sNum:"1",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.0",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:1,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:11,
+										direction:0,//方向0竖向，1横向
+										
+									},
+									{
+										name:"绝望的面板2",
+										sNum:"2",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:0,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:12,
+										direction:0,//方向0竖向，1横向
+									},
+									
+									{
+										name:"绝望的面板2sdf",
+										sNum:"3",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:3,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:2,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:15,
+										direction:0,//方向0竖向，1横向
+									},
+								],
+							},
+						]
+					}, 
+					
+					{
+						"name": "广西逆变器2" ,
+						"lv":2,
+						"sNum":"152452ac",//序号
+						"manufacturer":"growatt",//制造商
+						"model":"yh1000456",//型号
+						"power":"2150",
+						"children": [
+							
+							{
+								"name": "柳州组串",
+								"lv":3,
+								"children":[
+									{
+										"name": "",
+										"lv":4,
+									}
+								],
+								"list":[
+									{
+										name:"绝望的面板1",
+										sNum:"1",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.0",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:1,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:11,
+										direction:0,//方向0竖向，1横向
+										
+									},
+									{
+										name:"绝望的面板2",
+										sNum:"2",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:0,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:0,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:12,
+										direction:0,//方向0竖向，1横向
+									},
+									
+									{
+										name:"绝望的面板2sdf",
+										sNum:"3",//序号
+										manufacturer:"growatt",//制造商
+										model:"1.0.00",//型号
+										optimizerV:123,//优化器电压
+										power:15,//功率
+										voltage:220,//电压
+										electricity:120,//电流
+										status:3,//（0，1，2，3分别代表在线，离线，发电异常，无优化器）
+										string:2,//所属组串，0代表不属于组串的，同样的数据其他值相同为同一组组串
+										pid:2,
+										id:15,
+										direction:0,//方向0竖向，1横向
+									},
+								],
+							},
+						]
+					}, 
+				
+				
+				
+				
+				]
+			};
+			
+			
+			//=====================================================================================
+			var log_zoom = null;
+			logZoomFn();
+			//定义缩放
+			function logZoomFn(){
+				log_zoom = d3.behavior.zoom().scaleExtent([0.1, 2]).on("zoom", function(d,i){
+						zoomResFn();
+						
+				});
+			}
+			
+			var svg_layout_w = 1486;//画布宽度
+//			var	svg_layout_h = 824;//画布高度
+			var	svg_layout_h = 824*svg_layout_w/1486;//画布高度
+			
+			//位置参数
+			var log_tree_margin = {
+					top: 20*svg_layout_h/824,
+					right: 120*svg_layout_w/1486,
+					bottom: 20*svg_layout_h/824,
+					left: 120*svg_layout_w/1486
+				},
+				tree_width = svg_layout_w - log_tree_margin.right - log_tree_margin.left,
+				tree_height = svg_layout_h - log_tree_margin.top - log_tree_margin.bottom;
+
+			var d3_tree_i = 0,
+				log_duration = 750,				
+				site_img_w = 82*svg_layout_w/1486,
+				site_img_h = 47*svg_layout_h/824,
+				inv_img_w = 36*svg_layout_w/1486,
+				inv_img_h = 42*svg_layout_h/824,
+				zc_img_w = 16*svg_layout_w/1486,
+				zc_img_h = 21*svg_layout_h/824,
+				panel_img_w = 61*svg_layout_w/1486,
+				panel_img_h = 85*svg_layout_h/824,
+				show_hide_icon_s = 15*svg_layout_w/1486,				
+				log_root;
+			
+//			
+
+			function zoomResFn(){
+				d3.select("#svg_g").attr("transform",
+					 "translate(" + log_tree_margin.left + "," + log_tree_margin.top + ")" + 
+					"scale(" + log_zoom.scale() + ")"
+				);
+			}
+
+			var tree = d3.layout.tree()
+				.size([tree_height, tree_width]);
+				
+			// 指定为横向布局
+			var diagonal = d3.svg.diagonal()
+				.projection(function(d) {
+					return [d.y, d.x];
+				});
+				
+			var pathFunc;
+			if(false) {
+				pathFunc = diagonal;
+			} else {
+				pathFunc = funLine;
+			}
+			var svg = d3.select("body").append("svg")
+				.attr("width", svg_layout_w)
+				.attr("height", svg_layout_h)
+				.append("g")
+				.attr("id","svg_g")
+				.attr("transform", "translate(" + log_tree_margin.left + "," + log_tree_margin.top + ")")
+				.call(log_zoom);
+
+
+			//(1) 折叠函数，递归调用,有子孙的就把children（显示）给_children（不显示）暂存，便于折叠，
+			function collapse(d) {
+				if(d.children) {
+					console.log(d);
+					d._children = d.children;
+					d._children.forEach(collapse);
+					d.children = null;
+				}
+			}
+
+			//(2) 更新布局
+			function log_layout_update(source) {
+				// (2-1) 计算新树的布局
+				var nodes = tree.nodes(log_root).reverse(),
+					links = tree.links(nodes);
+
+				// (2-2) 树的深度这里树d.y。树的宽度最大720，要分四层，所以每层就乘180
+				nodes.forEach(function(d) {
+					d.y = d.depth * 180; // 树的x,y倒置了，所以这里Y其实是横向的
+				});
+
+				// (2-3) 数据连接，根据id绑定数据
+				var node = svg.selectAll("g.node")
+					.data(nodes, function(d) {
+						return d.id //最初新点开的节点都没有id
+							||
+							(d.id = ++d3_tree_i); //为没有id的节点添加上ID
+					});
+
+				// (2-4) 点击时增加新的子节点
+				var nodeEnter = node.enter().append("g")
+//					.attr("class", "node")
+					.attr("class",function(d,i){
+						return backImageData(d,i).g_class;
+					})
+					.attr("data-list",function(d,i){
+						return (d.list ? JSON.stringify(d.list) : 0);
+					})
+					.attr("transform", function(d) {
+						return "translate(" + source.y0 + "," + source.x0 + ")";
+					})
+					.style("cursor", "pointer")
+					.on("click", function(d,i){
+						switchShowFn(d,i,this);
+					});
+					
+					
+				nodeEnter.append("circle")
+					.attr("r", 1e-6)
+					.style("display","none")
+					.style("fill", function(d) {
+						return d._children ? "#009cff" : "#fff";
+					});
+					
+				nodeEnter
+					.append("image")
+					.attr("x",function(d,i){
+						if(d.lv == 3){
+							return 0;
+						}else{
+							return 15*svg_layout_w/1486;
+						}
+					})
+					.attr("y",-7)
+					.attr("width",show_hide_icon_s)
+					.attr("height",show_hide_icon_s)
+					.attr("class","foldBtn")
+					.attr("href",function(d,i){
+						return d._children ? "../img/show_icon2.png" : "../img/hide_icon2.png";
+					});
+					
+				//创建rect矩形
+				nodeEnter.append("rect")
+					.attr("width",function(d,i){
+						return backRectData(d,i).w;
+					})
+					.attr("height",function(d,i){
+						return backRectData(d,i).h;
+					})
+					.attr("x",function(d,i){
+						return backRectData(d,i).x;
+					})
+					.attr("y",function(d,i){
+						return backRectData(d,i).y;
+					})
+					.attr("ry",5)
+					.attr("rx",5)
+					.attr("fill","#fff");
+				
+				//创建文本
+				nodeEnter.append("text")
+					.attr("fill","#009cff")
+					.attr("x",function(d,i){
+						return backTextData(d,i).x
+					})
+					.attr("y",function(d,i){
+						return backTextData(d,i).y
+					})
+					.style("font-weight","bold")
+					.style("font-size",10*svg_layout_w/1486 + "px")
+					.attr("class",function(d,i){
+						return backTextData(d,i).className
+					})
+					.text(function(d,i){
+						return backTextData(d,i).text;
+					});
+				nodeEnter.append("a").append("text")
+					.attr("fill","#009cff")
+					.attr("x",function(d,i){
+						return backTextData(d,i).x
+					})
+					.attr("y",function(d,i){
+						return backTextData(d,i).y + (20*svg_layout_h/824)
+					})
+					.style("font-weight","bold")
+					.style("font-size",10*svg_layout_w/1486 + "px")
+					.text(function(d,i){
+						return backTextData(d,i).text2;
+					});
+					
+				
+					
+				//创建图片
+				nodeEnter.append("image")
+					.attr("x", function(d,i) {
+						return backImageData(d,i).x;
+					})
+					.attr("y", function(d,i){
+						return backImageData(d,i).y;
+					})
+					.attr("width",function(d,i){
+						return backImageData(d,i).w;
+					})
+					.attr("height",function(d,i){
+						return backImageData(d,i).h;
+					})
+					.attr("href",function(d,i){
+						return backImageData(d,i).href;
+					})
+					.attr("class",function(d,i){
+						return backImageData(d,i).className;
+					});
+				
+
+				// (2-5) 原有节点更新到新位置
+				var nodeUpdate = node.transition()
+					.duration(log_duration)
+					.attr("transform", function(d) {
+						return "translate(" + d.y + "," + d.x + ")";
+					});
+					
+					
+				nodeUpdate.select("circle")
+					.attr("r", 6.5)
+					.attr("cx",function(d,i){						
+						return (d.lv >= 3 ? 5 : 20); 						
+					})
+					.style("fill", function(d) {
+						return d._children ? "#009cff" : "#fff";
+					});
+					
+					
+				nodeUpdate
+					.select("image")
+					.attr("width",show_hide_icon_s)
+					.attr("height",show_hide_icon_s)
+					.attr("href",function(d,i){
+						return d._children ? "../img/show_icon2.png" : "../img/hide_icon2.png";
+//						return "../img/show_icon2.png";
+					});
+				
+				nodeUpdate.select("text")
+					.style("fill-opacity", 1);
+
+				// (2-6) 折叠节点的子节点收缩回来
+				var nodeExit = node.exit().transition()
+					.duration(log_duration)
+					.attr("transform", function(d) {
+						return "translate(" + source.y + "," + source.x + ")";
+					})
+					.remove();
+					
+				nodeExit.select("circle")
+					.attr("r", 1e-6);
+					
+				nodeExit.select("text")
+					.style("fill-opacity", 1e-6);
+
+				// (2-7) 数据连接，根据目标节点的id绑定数据
+				var link = svg.selectAll("path.link")
+					.data(links, function(d) {
+						return d.target.id;
+					});
+
+				// (2-8) 增加新连接
+				link.enter().insert("path", "g")
+					.attr("class", "link")
+					.attr("d", function(d) {
+						var o = {
+							x: source.x0,
+							y: source.y0
+						};
+						return funLine({
+							source: o,
+							target: o
+						});
+					});
+
+				// (2-9) 原有连接更新位置
+				link.transition()
+					.duration(log_duration)
+					.attr("d", funLine);
+
+				// (2-10) 折叠的链接，收缩到源节点处
+				link.exit().transition()
+					.duration(log_duration)
+					.attr("d", function(d) {
+						var o = {
+							x: source.x,
+							y: source.y
+						};
+						return funLine({
+							source: o,
+							target: o
+						});
+					})
+					.remove();
+				// 把旧位置存下来，用以过渡
+				nodes.forEach(function(d) {
+					d.x0 = d.x;
+					d.y0 = d.y;
+				});
+			}
+
+			// (3) 切换折叠与否
+			function switchShowFn(d,i,obj) {
+				if(d.children) {
+					d._children = d.children;
+					d.children = null;
+				} else {
+					d.children = d._children;
+					d._children = null;
+				}
+				log_layout_update(d); // 重新渲染
+				createPanelRect(d,obj);
+			}
+			var funLine = function(obj) { //折线
+				var s = obj.source;
+				var t = obj.target;
+				return "M" + s.y + "," + s.x + "L" + (s.y + (t.y - s.y) / 2) + "," + s.x + "L" + (s.y + (t.y - s.y) / 2) + "," + t.x + "L" + t.y + "," + t.x;
+			}
+			
+			//创建图片，返回对应的图片类型
+			function backImageData(d,i){
+				var n = 15*svg_layout_w/1486;
+				if(d.lv == 1){//电站
+					return {
+						href:"../img/bigPower.png",
+						w:site_img_w,
+						h:site_img_h,
+						x:-site_img_w-n,
+						y:-(site_img_h/2),
+						className:"site_img",
+						g_class:"node g_site_box",
+						circle_x:20*site_img_w/site_img_w,
+					}
+				}
+				else if(d.lv == 2){//逆变器
+					return {
+						href:"../img/inverter.png",
+						w:inv_img_w,
+						h:inv_img_h,
+						x:-inv_img_w-n,
+						y:-(inv_img_h/2),
+						className:"inv_img",
+						g_class:"node g_inv_box",
+						circle_x:20*inv_img_w/site_img_w,
+					}
+				}
+				else if(d.lv == 3){//组串
+					return {
+						href:"../img/zucuan.png",
+						w:zc_img_w,
+						h:zc_img_h,
+						x:-zc_img_w-n,
+						y:-(zc_img_h/2),
+						className:"zc_img",
+						g_class:"node g_zc_box",
+						circle_x:20*zc_img_w/site_img_w,
+					}
+				}
+				else if(d.lv == 4){//面板
+					return {
+						href:"../img/panel_normal.png",
+						w:panel_img_w,
+						h:panel_img_h,
+						x:-panel_img_w-n,
+						y:-(panel_img_h/2),
+						className:"panel_img",
+						g_class:"node g_panel_box",
+						circle_x:20*panel_img_w/site_img_w,
+					}
+					
+				}
+			}
+			
+			//创建背景矩形 （电站和逆变器）
+			function backRectData(d,i){
+				var n = 5*svg_layout_w/1486;
+				if(d.lv == 1){//电站
+					return {
+						w:site_img_w/2 + site_img_w,
+						h:site_img_h * 2.3,
+						x:-(site_img_w/2 + site_img_w)+n*2,
+						y:-site_img_h*0.7,
+					}
+				}else if(d.lv == 2){
+					return {
+						w:inv_img_w * 2,
+						h:inv_img_h * 2.3,
+						x:-(inv_img_w/2 + inv_img_w)-n,
+						y:-inv_img_h*0.7,
+					}
+				}
+				else{
+					return {
+						w:0,
+						h:0,
+						x:0,
+						y:0,
+					}
+				}
+			}
+			
+			//创建对应文本（电站和逆变器）
+			function backTextData(d,i){
+				var n = 15*svg_layout_h/824;
+				if(d.lv == 1){//电站
+					return {						
+						x:-site_img_w-n,
+						y:-(site_img_h/2) + site_img_h + n,
+						text:d.power + "kWh",
+						text2:d.name,
+						className:"site_text",
+					}
+				}else if(d.lv == 2){
+					return {						
+						x:-inv_img_w-n,
+						y:-(inv_img_h/2) + inv_img_h + n,
+						text:d.power + "kWh",
+						text2:d.name,
+						className:"inv_text",
+					}
+				}
+				else{
+					return {						
+						x:0,
+						y:0,
+						text:"",
+						text2:"",
+					}
+				}
+			}
+			
+			/**
+			 * 创建面板背景rect
+			 * @param {Object} d 前文主要数据
+			 * @param {type} obj this对象
+			 * */
+			function createPanelRect(d,obj){
+				var n = 100*svg_layout_w/1486;
+				if(d.lv == 3){
+					var _g = d3.select(obj);
+					
+					if(_g.select(".panel_g_box")[0][0]){
+						_g.select(".panel_g_box").remove();
+					}
+					else{
+					
+						var panelData = d.list;
+						_g.append("g")
+							.attr("class","panel_g_box")
+							.append("rect")
+							.attr("fill","rgba(255,255,255,1)")
+							.attr("width",function(){
+								var w = (panelData.length * panel_img_w) + ((panelData.length+1) * (panel_img_w/2));
+								return w;
+							})
+							.attr("height",function(){
+								return (panel_img_h + panel_img_h/2);
+							})
+							.attr("rx",5)
+							.attr("ry",5)
+							.attr("x",function(){
+								
+								return -panel_img_w+n;
+							})
+							.attr("y",-(panel_img_h/2));
+						
+						
+						//生成面板图
+						_g.select(".panel_g_box").selectAll(".main_panel_img")
+							.data(panelData)
+							.enter()
+							.append("image")
+							.attr("href",function(d,i){
+								if(d.status == 0){
+									return "../img/panel_normal.png";
+								}else if(d.status == 1){
+									return "../img/panel_outline.png";
+								}
+								else if(d.status == 2){
+									return "../img/panel_error.png";
+								}
+								else{
+									return "../img/panel_no.png";
+								}
+							})
+							.attr("width",panel_img_w)
+							.attr("height",panel_img_h)
+							.attr("x",function(d,i){
+								var _x = (i*panel_img_w) + i*(panel_img_w/2) + (panel_img_w/2);
+								return -panel_img_w + n + _x;
+							})
+							.attr("y",function(d,i){
+								return -(panel_img_h/2) + (panel_img_h/4);
+							})
+					}
+					
+					
+				}
+				
+			}
+			
+			
+			// 根节点和位置
+				log_root = site_mainData;
+				log_root.x0 = tree_height / 2;
+				log_root.y0 = 0;
+				
+				// 折叠根节点的每个孩子
+				log_root.children.forEach(collapse);
+				// 折叠之后要重绘
+				log_layout_update(log_root);
+			
+				
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			svg{border: 1px solid #ddd;}
+			.svg_a{
+				display: inline-block;
+				width: 62px;
+				height: 85px;
+				background: url(../img/panel_normal.png) no-repeat;
+				background-size:cover;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<svg width="800"height="800">
+			
+			<a href="javascript:;" onclick="svg_a_fn(this)">
+				<image x="30"  y="10"  rx="5" ry="5" width="62" height="80" 
+				        href="../img/panel_normal.png">
+				</image>
+			</a>
+			
+	     
+	    </svg>
+	    
+	    
+		<div class="mydiv"></div>
+		
+		<script src="jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="V3/d3.v3.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function svg_a_fn(obj){
+				var sUrl = $(obj).children().attr("href");
+				alert(sUrl);
+			}
+		</script>
+		<script type="text/javascript">
+			var width = 800;
+			var height = 200;
+
+			var svg = d3.select(".mydiv").append("svg")
+				.attr("width", width)
+				.attr("height", height)
+				.attr("viewBox", "0 0 250 100");
+
+			var defs = svg.append('defs')
+			defs.append('pattern')
+				.attr('id', 'pic1')
+				.attr('patternUnits', 'userSpaceOnUse')
+				.attr('width', 115.5)
+				.attr('height', 100)
+				.append('svg:image')
+//				.attr('xlink:href', 'http://cammac7.github.io/img/portfolio/LRO.jpg')
+				.attr('xlink:href', '../img/panel_normal.png')
+				.attr("width", 115.5)
+				.attr("height", 100)
+				.attr("x", 0)
+				.attr("y", 0);
+
+			svg.append("a")
+				.attr("xlink:href", "http://www.google.com")
+				.append('path')
+				.attr("d", "M 0,0, 0,-100, 115.5,0z")
+				.attr("transform", "translate(135.5, 100)")
+				.attr("fill", "url(#pic1)");
+		</script>
+	</body>
+
+</html>

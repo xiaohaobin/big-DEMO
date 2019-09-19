@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="box" style="width: 100px;height: 100px;background: red;"></div>
+		<script type="text/javascript">
+			//获取要操作的元素
+			//var objSection = document.getElementsByTagName("div")[0];
+			var objSection = document.getElementById("box");
+			//给元素绑定监听事件  个人习惯把监听事件写在一块
+			objSection.addEventListener("touchstart", touchStart, false);
+			objSection.addEventListener("touchmove", touchMove, false);
+			objSection.addEventListener("touchend", touchEnd, false);
+
+			//touchStart 触发事件时要执行的方法
+			function touchStart(event) {
+				event.preventDefault();
+				this.startY = event.changedTouches[0].pageY;
+				console.log('start');
+			}
+
+			//touchMove 触发事件的过程执行的方法
+			function touchMove(event) {
+				var change = event.changedTouches[0].pageY - this.startY;
+				this.change = change;
+				this.parentNode.style["-webkit-transform"] = "translate(0," + this.change + "px)";
+				this.parentNode.style["transform"] = "translate(0," + this.change + "px)";
+				this.parentNode.style["-webkit-transition"] = "all " + 0 + "s";
+				this.parentNode.style["transition"] = "all " + 0 + "s";
+				console.log('过程');
+			}
+
+			//touchEnd 事件结束执行的方法
+			function touchEnd(event) {
+				if(this.change < 0) {
+					this.parentNode.style["-webkit-transform"] = "translate(0," + this.change + "px)";
+					this.parentNode.style["transform"] = "translate(0," + this.change + "px)";
+					this.parentNode.style["-webkit-transition"] = "all " + 1 + "s";
+					this.parentNode.style["transition"] = "all " + 1 + "s";
+					appendData(this);
+				} else {
+					this.parentNode.style["-webkit-transform"] = "translate(0," + 0 + "px)";
+					this.parentNode.style["transform"] = "translate(0," + 0 + "px)";
+					this.parentNode.style["-webkit-transition"] = "all " + 0.5 + "s";
+					this.parentNode.style["transition"] = "all " + 0.5 + "s";
+				}
+				console.log('end');
+			}
+		</script>
+	</body>
+
+</html>

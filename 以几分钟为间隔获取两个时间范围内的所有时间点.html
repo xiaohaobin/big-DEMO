@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+	</head>
+
+	<body>
+		输入开始时间、结束时间、时间间隔，计算这段时间内每个时间间隔的数据<br /><br /> 例如
+		<br /><br /> 开始时间：2019.04.12 16:00:00 结束时间：2019.04.12 18:00:00 时间间隔：30<br /><br /> 产生 2019-04-12 17:30:00 &nbsp;&nbsp;&nbsp;&nbsp; 2019-04-12 17:00:00 &nbsp;&nbsp;&nbsp;&nbsp; 2019-04-12 16:30:00
+		<br /><br /> 默认设置：
+		<br /><br /> 开始时间：当前时间 结束时间：当前时间前一小时 时间间隔 30分钟<br /><br />
+		<input id="a" placeholder="开始日期（年月日时分秒）" />
+		<input id="b" placeholder="结束时间（年月日时分秒）" />
+		<input id="c" placeholder="时间间隔（分钟）" />
+		<button type="button" id="button">
+      按钮
+    </button>
+		<br />
+		<ul>
+			<h4>展示区域</h4>
+		</ul>
+		<script>
+			
+			
+			function getDateArray(startDate, endDate, space) {
+				
+				if(!startDate || !endDate){
+					alert('时间参数缺省');
+					return;
+				}
+//				if(!endDate) {
+//					endDate = new Date();
+//				}
+//				if(!startDate) {
+//					startDate = new Date(new Date().getTime() - 1 * 60 * 60 * 1000);
+//				}
+				var _startDate = new Date(startDate);
+				var _endDate = new Date(endDate);
+
+				if(!space) {
+					space = 30 * 60 * 1000;
+				} else {
+					space = space * 60 * 1000;
+				}
+				var endTime = _endDate.getTime();
+				var startTime = _startDate.getTime();
+				var mod = endTime - startTime;				
+			
+				if(mod <= space) {
+					return;
+					alert("时间太短");
+				}
+				var dateArray = [];
+				//倒叙插入
+//				while(mod - space >= space) {
+//					var d = new Date();
+//					d.setTime(endTime - space);
+//					dateArray.push(d);
+//					mod = mod - space;
+//					endTime = endTime - space;
+//				}
+				
+				//正序插入
+				while(mod >= space) {
+					var d = new Date();
+					d.setTime(startTime + space);
+					dateArray.push(d);
+					mod = mod - space;
+					startTime = startTime + space;
+				}
+				dateArray.reverse();
+				
+				
+				return dateArray;
+			}
+
+			var a = document.getElementById("a");
+			var b = document.getElementById("b");
+			var c = document.getElementById("c");
+			
+			
+			
+		//	var count = 0;
+			document.getElementById("button").onclick = function() {
+				if(document.querySelector("li")) {
+					document
+						.querySelector("ul")
+						.removeChild(document.querySelector("li"));
+				}
+				if(!a.value) {
+					var qqq = getDateArray();
+				} else {
+					var qqq = getDateArray(a.value, b.value, c.value);
+				}
+				
+				var aRes = [];
+				for(var i = qqq.length - 1; i >= 0; i--) {
+					var node = document.createElement("li");
+					var textnode = document.createTextNode(nowtime(qqq[i]));
+					node.appendChild(textnode);
+					document.querySelector("ul").appendChild(node);
+					aRes.push(nowtime(qqq[i]));
+				}
+				console.log(aRes);
+			};
+
+			
+			
+			
+			/**
+			 * 系统时间格式转化为 yyyy-mm-dd hh-mm-ss时间格式
+			 * @param {String} dt 系统时间格式时间
+			 * */
+			function nowtime(dt) {
+				return(
+					dt.getFullYear() +
+					"-" +
+					(dt.getMonth() + 1 < 10 ?
+						"0" + (dt.getMonth() + 1) :
+						dt.getMonth() + 1) +
+					"-" +
+					(dt.getDate() < 10 ? "0" + dt.getDate() : dt.getDate()) +
+					" " +
+					(dt.getHours() < 10 ? "0" + dt.getHours() : dt.getHours()) +
+					":" +
+					(dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes()) +
+					":" +
+					(dt.getSeconds() < 10 ? "0" + dt.getSeconds() : dt.getSeconds())
+				);
+			}
+			
+			/**
+			 * 系统时间格式转化为 hh-mm-ss时间格式
+			 * @param {String} dt 系统时间格式时间
+			 * */
+			function nowtime2(dt) {
+				return(
+					(dt.getHours() < 10 ? "0" + dt.getHours() : dt.getHours()) +
+					":" +
+					(dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes()) 
+				);
+			}
+			
+			/**
+			 * 以几分钟为间隔，获取两个时间范围内的所有时间点，返回数组
+			 * @param {String} startDate 开始时间（yyyy-mm-dd hh:mm:ss）
+			 * @param {String} endDate 结束时间（yyyy-mm-dd hh:mm:ss）
+			 * @param {Number} space 时间间隔（单位分钟），默认间隔30分钟
+			 * @param {Boolean} isReverse 时间点是否从结束时间开始计算返回，如true，则倒叙，否则或者不传为正序
+			 * */
+			function getDateArr(startDate, endDate, space, isReverse){				
+				if(!startDate || !endDate){
+					alert('时间参数缺省');
+					return;
+				}
+				var _startDate = new Date(startDate);
+				var _endDate = new Date(endDate);
+
+				if(!space) {
+					space = 30 * 60 * 1000;
+				} else {
+					space = space * 60 * 1000;
+				}
+				var endTime = _endDate.getTime();
+				var startTime = _startDate.getTime();
+				var mod = endTime - startTime;				
+			
+				if(mod <= space) {
+					return;
+					alert("时间太短");
+				}
+				var dateArray = [];				
+				if(isReverse){
+					//倒叙插入
+					while(mod - space >= space) {
+						var d = new Date();
+						d.setTime(endTime - space);
+						dateArray.push(d);
+						mod = mod - space;
+						endTime = endTime - space;
+					}
+				}else{
+					//正序插入
+					while(mod >= space) {
+						var d = new Date();
+						d.setTime(startTime + space);
+						dateArray.push(d);
+						mod = mod - space;
+						startTime = startTime + space;
+					}					
+				}				
+				dateArray.reverse();
+				var aRes = [];
+				for(var i = dateArray.length - 1; i >= 0; i--) {					
+					aRes.push(nowtime2(dateArray[i]));
+				}
+				aRes.unshift('00:00');
+				
+				var _oDateArr = [];
+				for(var i=0,len=aRes.length;i<len;i++){
+					_oDateArr.push({"d":[],"t":aRes[i]});
+				}
+				return _oDateArr;
+			}
+			
+			var aDateArr = getDateArr("2015-04-15 00:00:00","2015-04-15 23:59:00", 1);
+			console.log(aDateArr);
+
+		</script>
+	</body>
+
+</html>

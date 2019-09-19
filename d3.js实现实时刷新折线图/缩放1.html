@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.svgBox {
+				width: 500px;
+				height: 500px;
+				border: 1px solid #ddd;
+				position: relative;
+			}
+			
+			.t_svgBox {
+				position: fixed;
+				z-index: 10;
+				width: 100px;
+				height: 100px;
+				right: 0;
+				top: 0;
+				background: #ddd;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="modelBox">
+			<div class="svgBox">
+
+				
+			</div>
+			<div class="t_svgBox">
+			</div>
+		</div>
+		
+		<script src="d3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var modelBox = new Vue({
+				el:"#modelBox",
+				data:{
+					mainW:1000,
+					mainH:800,//主图高度
+					thumW:100,
+					thumH:80,//缩略图高度
+					mainData:[250, 210, 170, 130, 90],//主要数据
+					mainData2:[
+						{
+							w:50,
+							h:50,
+							x:0,
+							y:10
+						},
+						{
+							w:50,
+							h:50,
+							x:20,
+							y:100
+						},
+						{
+							w:50,
+							h:50,
+							x:158,
+							y:200
+						},
+						{
+							w:50,
+							h:50,
+							x:208,
+							y:400
+						},
+						{
+							w:50,
+							h:50,
+							x:350,
+							y:450
+						},
+					],
+					cData:[
+						{
+							cx: 150,
+							cy: 200,
+							r: 30
+						},
+						{
+							cx: 50,
+							cy: 250,
+							r: 30
+						}
+					],
+					ratioW:0,//宽度倍率
+					ratioH:0,//高度倍率
+					oSvg:null,//svg画布主要对象
+					thum_oSvg:null,//缩略图画布主要对象
+					draged:null,//拖拽函数对象
+					rectHeight:25,//统一矩形高度
+					zoom:null,//缩放函数对象
+					circles_group:null,//包裹圆的元素
+				},
+				created:function(){
+					this.ratioW = this.mainW / this.thumW;
+					this.ratioH = this.mainH / this.thumH;
+					
+					this.dragedFn();
+					this.zoomFn(this.circles_group);
+				},
+				updated:function(){
+					
+				},
+				mounted:function(){
+					var _this = this;
+					//初始化主图svg
+					this.initSvgFn(".svgBox",function(){
+						_this.createRectFn();
+						
+						_this.createCircleFn(_this.oSvg);
+					});
+					
+					//初始化缩略svg
+					this.thum_initSvgFn(".t_svgBox",function(){
+						_this.thum_createRectFn();
+					});
+					
+					
+				},
+				watch:{
+					
+				},
+				methods:{
+					/**
+					 * 初始化大svg画布
+					 * @param {String} selector 选择器字符串
+					 * @param {Function} fn 回调函数
+					 * */
+					initSvgFn:function(selector,fn){
+						var _this = this;
+						//初始化画布，并为父元素添加样式
+						_this.oSvg = d3.select(selector) //选择文档中的body元素
+							.style("width",_this.mainW+"px")
+							.style("height",_this.mainH+"px")
+							.append("svg") //添加一个svg元素
+							.attr("width", _this.mainW) //设定宽度
+							.attr("height", _this.mainH); //设定高度
+							
+							//回调函数
+							fn(_this.oSvg);
+					},
+					/**
+					 * 初始化缩略图svg画布
+					 * @param {String} selector 选择器字符串
+					 * @param {Function} fn 回调函数
+					 * */
+					thum_initSvgFn:function(selector,fn){
+						var _this = this;
+						
+						//每次绘制前删除之前的图形（这是一种简单有效的动画理论，但是比较消耗资源，之后会介绍如何节省资源完成需求）
+						d3.select("#thumbSvg").remove();
+						
+						//初始化画布，并为父元素添加样式
+						_this.thum_oSvg = d3.select(selector) //选择文档中的body元素
+							.style("width",_this.thumW+"px")
+							.style("height",_this.thumH+"px")
+							.append("svg") //添加一个svg元素
+							.attr("id", "thumbSvg")
+							.attr("width", _this.thumW) //设定宽度
+							.attr("height", _this.thumH); //设定高度
+							
+							//回调函数
+							fn(_this.thum_oSvg);
+					},
+					
+					//定义拖拽函数
+					dragedFn:function(_svg){
+						var _this = this;
+						_this.draged = d3.drag()
+					        .on('drag', function (d,i,arr) {
+					        	//限制移动
+					            d3.select(this)
+					            	.attr("x",d.x=d3.event.x)
+					            	.attr("y",d.y=d3.event.y);
+					           
+					        })
+					        .on('end',function(d,i,arr){
+					        	_this.mainData2[i].x = d3.event.x;
+					            _this.mainData2[i].y = d3.event.y;
+					            
+					            //重新定义缩略svg
+								_this.thum_initSvgFn(".t_svgBox",function(){
+									_this.thum_createRectFn();
+								});
+					            
+					        });
+					},
+					//主图矩形生产
+					createRectFn:function(){
+						var _this = this;
+						if(_this.oSvg){
+							_this.oSvg.selectAll("rect")
+								.data(_this.mainData2) //遍历函数
+								.enter() //指定选择集的enter部分，即进入rect
+								.append("rect")
+								.attr("x", function(d,i){
+									return d.x;
+								})
+								.attr("y", function(d, i) {
+									return d.y;
+								})
+								.attr("width", function(d,i) {
+									return d.w;
+								})
+								.attr("height",function(d,i){
+									return d.h;
+								})								
+								.attr("fill", "steelblue")
+//								.call(_this.draged);
+						}
+						
+					},
+					//缩略图矩形生产
+					thum_createRectFn:function(){
+						var _this = this;
+						if(_this.thum_oSvg){
+							_this.thum_oSvg.selectAll("rect")
+								.data(_this.mainData2) //遍历函数
+								.enter() //指定选择集的enter部分，即进入rect
+								.append("rect")
+								.attr("x",function(d,i){
+									return d.x/_this.ratioW
+								})
+								.attr("y", function(d, i) {
+									return d.y/_this.ratioH;
+								})
+								.attr("width", function(d) {
+									return d.w/_this.ratioW;
+								})
+								.attr("height",function(d) {
+									return d.h/_this.ratioH;
+								})								
+								.attr("fill", "steelblue")
+//								.call(_this.draged);
+						}
+						
+					},
+					//生产圆
+					createCircleFn:function(svg){
+						
+						var _this = this;
+						_this.circles_group = svg.append("g")
+							.attr("id","svg_g")
+							.call(_this.zoom);
+						
+						_this.circles_group.selectAll("circle")
+							.data(_this.cData)
+							.enter()
+							.append("circle")
+							.attr("cx", function(d) {
+								return d.cx
+							})
+							.attr("cy", function(d) {
+								return d.cy
+							})
+							.attr("r", function(d) {
+								return d.r
+							})
+							.attr("fill", "red")
+					},
+					//定义zoom函数
+					zoomFn:function(circles_group){
+						var _this = this;
+						_this.zoom = d3.zoom()
+									.scaleExtent([1, 10])//缩放最小和最大的级别
+									.on("zoom", function(d,i,arr){
+										d3.select('#svg_g').attr("transform", d3.event.transform);           
+//										console.log(d,i,arr);
+										console.log(d3.event);
+									});
+ 
+						
+					},
+				}
+			});
+			
+
+			
+				
+			
+
+		</script>
+	</body>
+</html>

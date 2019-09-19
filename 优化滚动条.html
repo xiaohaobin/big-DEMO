@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+		<style type="text/css">
+			html{overflow: auto;}
+			body{height:auto !important;overflow: initial !important;}
+			.list{
+				width: 180px;
+				height: 200px;
+				margin-top: 10px;
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="div1">
+			<div class="list"></div>
+			<div class="list"></div>
+			<div class="list"></div>
+			<div class="list"></div>
+			<div class="list"></div>
+			<div class="list"></div>
+			<div class="list"></div>
+			<div class="list"></div>
+		</div>
+		
+		<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.nicescroll.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				 $("html").niceScroll({
+				 	zindex: "auto",
+				 	cursorcolor: "#424242",  // 滚动条颜色，使用16进制颜色值
+				 	 cursoropacitymin: 1,  // 当滚动条是隐藏状态时改变透明度，值范围1到0
+				 	 background:"#e42323"
+				 });
+			});
+		</script>
+	</body>
+	
+</html>

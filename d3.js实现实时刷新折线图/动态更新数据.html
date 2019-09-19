@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="V3/d3.v3.js"></script>
+<script>
+	 var arr = [
+    	{name:"xhb",age:17},
+    	{name:"flp",age:15}
+    ];
+	 var timer = null;
+	
+    function update_exit_enter(dataset) {
+        let p = d3.select('body').selectAll('p');
+        // 绑定数据后，分别返回update、enter、exit部分
+        const update = p.data(dataset);
+        const enter = update.enter();
+        const exit = update.exit();
+        // 1.update部分的处理方法
+        update.text(function(d) {
+            return d.name + ":" + d.age;
+        });
+        // 2.enter部分的处理方法
+        enter.append('p')
+            .text(function(d) {
+            	console.log('重生')
+               return d.name + ":" + d.age;
+            })
+            .style("background-color","red")
+            .on("mouseover",function(d,i){
+            	clearInterval(timer);
+            	console.log(d);
+            })
+            .on("mouseout",function(d,i){
+            	
+            	arr.push(
+            		{name:"xhb"+arr.length,age:1}
+            	);
+            	//随机更新
+			    timer = setInterval(function(){
+			    	updateFn(arr);
+			    },1000)
+            })
+        // 3.exit部分的处理方法
+        exit.remove();
+    }
+   
+   	 //动态更新数据
+    function updateFn(data){
+    	for(var k in data){
+    		data[k].age = Math.ceil(Math.random(100)*100);
+    	}
+    	update_exit_enter(data);
+    }
+   
+    //初始化
+    update_exit_enter(arr);
+    
+   
+    //随机更新
+    timer = setInterval(function(){
+    	updateFn(arr);
+    },1000)
+</script>
+</body>
+</html>

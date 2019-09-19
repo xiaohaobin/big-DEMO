@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="" style="width: 100%;height: 2000px;background: #0072B9;">
+			
+		</div>
+
+		<script type="text/javascript">
+			let isLoad = true //加个节流阀,避免尚未加载出的时间段里,上拉多次而导致加载太多
+
+			//开启事件监听
+			window.addEventListener('scroll', function() {
+				let clientHeight = document.documentElement.clientHeight //可视区高度
+
+				let scrollHeight = document.documentElement.scrollHeight //文档流高度
+
+				let scrollDistance = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0 //滚动出去高度
+
+				//文档剩余区域的高度
+				// 文档高度-可视区高度-滚动出去的高度 = 文档剩余高度
+				let surplus = scrollHeight - clientHeight - scrollDistance //尚未滚出来的文档流高度
+
+				//注意判断条件,当剩余文档流的高度小于0时
+
+				if(surplus <= 0 && isLoad) {
+
+					isLoad = false
+
+					setTimeout(function() {
+
+						alert(1111)
+
+						isLoad = true;
+
+					}, 100) //迟疑三秒再加载出来
+
+				}
+
+			}, false);
+		</script>
+	</body>
+
+</html>

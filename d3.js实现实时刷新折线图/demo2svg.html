@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.svgBox {
+				width: 500px;
+				height: 500px;
+				border: 1px solid #ddd;
+				position: relative;
+			}
+			
+			.t_svgBox {
+				position: absolute;
+				z-index: 10;
+				width: 50px;
+				height: 50px;
+				right: 0;
+				bottom: 0;
+				background: #ddd;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="svgBox">
+
+			<div class="t_svgBox">
+			</div>
+		</div>
+
+		<!--<script src="d3.v3.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="d3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			
+			
+			
+			//动态生成svg
+			var width = 500; //画布的宽度
+			var height = 500; //画布的高度
+
+			//初始化画布，并为父元素添加样式
+			var svg = d3.select(".svgBox") //选择文档中的body元素
+				.style("border-radius", "10px")
+				.append("svg") //添加一个svg元素
+				.attr("width", width) //设定宽度
+				.attr("height", height); //设定高度
+
+			var dataset = [250, 210, 170, 130, 90]; //数据（表示矩形的宽度）
+			var rectHeight = 25; //每个矩形所占的像素高度(包括空白)
+
+			//根据dataset的长度，遍历生产多个rect矩形
+			svg.selectAll("rect")
+				.data(dataset) //遍历函数
+				.enter() //指定选择集的enter部分，即进入rect
+				.append("rect")
+				.attr("x", 20)
+				.attr("y", function(d, i) {
+					return i * rectHeight;
+				})
+				.attr("width", function(d) {
+					return d;
+				})
+				.attr("height", rectHeight - 2)
+				.attr("fill", "steelblue");
+
+			
+
+
+			t_svgFn();
+
+			//缩略图函数，执行方法类似主图，只不过尺寸是缩小版
+			function t_svgFn() {
+				var t_w = 100;
+				var t_h = 100;
+
+				d3.select('.t_svgBox').style('width', t_w + "px").style('height', t_h + "px");
+				//宽度高度比例
+				var ratio_w = width / t_w;
+				var ratio_h = width / t_h;
+
+				var t_svg = d3.select(".t_svgBox")
+					.append("svg") //添加一个svg元素
+					.attr("width", t_w) //设定宽度
+					.attr("height", t_h); //设定高度
+
+				t_svg.selectAll("rect")
+					.data(dataset) //遍历函数
+					.enter() //指定选择集的enter部分，即进入rect
+					.append("rect")
+					.attr("x", 20 / ratio_w)
+					.attr("y", function(d, i) {
+						return i * rectHeight / ratio_h;
+					})
+					.attr("width", function(d) {
+						return d / ratio_w;
+					})
+					.attr("height", ((rectHeight / ratio_h) - (2 / ratio_h)))
+					.on("click", function(i, v, d, a) {
+						console.log(i, v, d, a)
+
+					})
+					.attr("fill", "steelblue");
+
+				//				t_svg.on("click",function(i,v){
+				//					console.log(i,v)
+				//				});
+			}
+		</script>
+	</body>
+
+</html>

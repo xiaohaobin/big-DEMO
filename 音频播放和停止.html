@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<audio controls="controls" loop="loop" id="notice_mp3" style="display: none;">
+		  <source src="notice.mp3" type="audio/mpeg">
+		您的浏览器不支持音频播放，请切换到最新浏览器版本
+		</audio>
+		
+		<div>
+			<button type="button" onclick="stopPlay()">关闭播放</button>
+			<button type="button" onclick="conPlay()">继续播放</button>
+		</div>
+		
+		<script type="text/javascript">
+			function stopPlay(){
+				var audio = document.getElementById("notice_mp3");
+				audio.pause();// 这个就是暂停
+			}
+			function conPlay(){
+				var audio = document.getElementById("notice_mp3");
+				audio.play();// 这个就是暂停
+			}
+		</script>
+	</body>
+</html>

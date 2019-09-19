@@ -1,0 +1,148 @@
+body {
+	font-family:"Lucida Sans Unicode", sans-serif!important;
+	font-size:11px;
+}
+
+#summary_nav .active p, .href,.tab_active_first p, .tab_active p, .admin_subtab_selected p, .menu_third_end{
+	color:#8DC63F!important;
+}
+#widget_holder #slider .widget {
+	border: 1px solid #8DC63F;
+}
+.al_table th, .sys_table th, .pe_table th, .style31, #title, .tb_red_title th{
+	color: black;
+	font-family: "Century Gothic", sans-serif!important;
+}
+#LT p, #YTD p, #date p, .widget_header p {
+	font-family: "Century Gothic", sans-serif!important;
+}
+
+.ui-widget-header {
+	background-color:#8DC63F!important;
+}
+.adv_title,.sub_title {
+	color:#5E5F62;
+}
+.header_font_color,.style29 {
+	color:#5E5F62!important;
+}
+.step,#connector {
+	background-color:#8DC63F!important;
+}
+a{
+	color:#5E5F62!important;
+}
+h4,.greenText, .alName,.menu_first, .menu_second_end , .subtab_selected_first p, .subtab_selected p, .admin_subtab_selected_first p, .admin_subtab_selected p{
+	color:#8DC63F!important;
+}
+.adv_tb {
+	font-family:"Lucida Sans Unicode", sans-serif!important;
+}
+
+.s_title {
+	color:#5E5F62!important;
+}
+.orange_btn {
+	background:none!important;
+	background-color: #5E5F62!important;
+}
+
+.welcome {
+    color:#5E5F62!important;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+#wide_time_player .date {
+	font-size: 13.6px;
+}
+
+#calendar_slider .ui-slider-handle {
+	background:none!important;
+	background-color: #5E5F62!important;
+	height:25px!important;
+	width:10px!important;
+	border:1px solid #8DC63F!important;
+}
+
+.dropdown li.hover {
+	padding-left:5px;
+	border-left:5px solid #8DC63F;
+	color:#8DC63F;
+}
+
+#btn_switch_view {
+	background-color:#8DC63F;
+}
+
+/*
+#em_energy {
+	height:10px;
+	background-color:#8DC63F;
+	width:0;
+}
+*/
+
+.switch_list li.active {
+	cursor:default;
+	color:#8DC63F;
+	background-color:#fff;
+}
+
+.switch_list_wide li.hover {
+	padding-left:20px;
+	border-left:5px solid #8DC63F;
+	color:#8DC63F;
+}
+
+.switch_list_narrow li.hover {
+	padding-left:10px;
+	border-left:5px solid #8DC63F;
+	color:#8DC63F;
+}
+
+/* The following are for wizard */
+.menu_selected a{
+        color:#fff!important;
+}
+
+.menu_selected {
+        background-color:#8DC63F;
+        padding:3px 0 3px 10px;
+        color:#fff!important;
+}
+.link{
+        text-decoration: underline;
+        color: #8DC63F;
+        cursor:pointer;
+}
+
+#mlabel, #total_modules{
+color:#8DC63F;
+}
+
+.tb_red_title {
+	color:#8DC63F;
+}
+
+/* @group Login Page */
+#orange_btn {
+    background-image:none;
+    background-color:#5E5F62;
+    color: white;
+    font-weight: bold;
+}
+/* End @group Login Page */
+
+.menu_first {
+	background:transparent url('images/first_slice_continues.png') no-repeat top left!important;
+}
+.menu_second_end {
+	background:transparent url('images/second_slice_end.png') no-repeat top left!important;
+}
+.menu_second_continues {
+	background:transparent url('images/second_slice_continues.png') no-repeat top left!important;
+}
+.menu_third_end {
+	background:transparent url('images/third_slice_end.png') no-repeat top left!important;
+}

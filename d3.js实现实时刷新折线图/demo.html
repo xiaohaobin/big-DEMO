@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div class="demo1">
+			ddd
+		</div>
+		<ul class="ul">
+			<li></li>
+			<li></li>
+		</ul>
+		
+		<ol>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ol>
+		
+		<script src="d3.v3.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>-->
+		<script type="text/javascript">
+			var demo1 = d3.select('.demo1');//d3.select()选择第一个对象，d3.selectAll()选中所有匹配对象，参数为选择器字符串
+			console.log(demo1);
+			
+			var lis = d3.selectAll('.ul>li');
+			console.log(lis);
+			
+			//绑定数据到所有的li元素
+			var ss = "mmp";
+			lis.datum(ss);
+			lis.text(function(d,i){
+				return d + "," + i;
+			});
+			
+			//对应对象配置对应数据
+			var lis2 = d3.selectAll('ol>li');
+			var dataset = ["I like dogs","I like cats","I like snakes"];
+			lis2.data(dataset).text(function(d,i){
+				return d;
+			});
+			
+			
+			//其他函数，append(),insert(),remove(),都类似jq的
+		</script>
+	</body>
+</html>

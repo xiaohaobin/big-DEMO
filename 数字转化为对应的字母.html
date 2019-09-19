@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>数字转字母顺序</title>
+</head>
+<body>
+  <div>
+    输入数字:<input type = "text" class = "num">
+      
+    转换: <button type = "button" onclick = "change()">转换</button>
+    <br>
+    转换后的字母顺序：<span id = "resultString"></span>
+  </div>
+</body>
+<script>
+  var change = function () {
+    var num = document.getElementsByClassName("num")[0].value;
+    var stringName = "";
+    if(num > 0) {
+      if(num >= 1 && num <= 26) {
+        stringName = String.fromCharCode(64 + parseInt(num));
+      } else {
+        while(num > 26) {
+          var count = parseInt(num/26);
+          var remainder = num%26;
+          if(remainder == 0) {
+            remainder = 26;
+            count--;
+            stringName = String.fromCharCode(64 + parseInt(remainder)) + stringName;
+          } else {
+            stringName = String.fromCharCode(64 + parseInt(remainder)) + stringName;
+          }
+          num = count;
+        }
+        stringName = String.fromCharCode(64 + parseInt(num)) + stringName;
+      }
+    }
+    console.log(stringName);
+    document.getElementById("resultString").innerText  = stringName;
+  }
+</script>
+</html>

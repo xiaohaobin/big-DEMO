@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="">
+			<button class="loadBtn">加载中...</button>
+			<button class="warningBtn">温馨提示</button>
+		</div>
+		<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/xhb_layer.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				//实例化函数
+				var noticeFn = new NoticeFn();
+				
+				//加载条
+				$(".loadBtn").on("click",function(){
+					noticeFn.loading();
+				})
+				
+				//提示框
+				$(".warningBtn").on("click",function(){
+					//noticeFn.warning()可传参数，文本string类型
+					noticeFn.warning("操作成功.....");
+				})
+				
+				//关闭所有加载框 noticeFn.closeLayer()
+			});
+		
+			
+			
+			
+			
+		</script>
+	</body>
+</html>

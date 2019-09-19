@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.bigBox{
+				width: 500px;
+			    height: 500px;
+			    margin-top: 1vh;
+			    padding-top: 1vh;
+			    overflow-x: hidden;
+			    overflow-y: auto;
+			    border: 1px solid #ddd;
+			}
+			.item{
+				width: 100%;
+				height: 100px;
+				background: red;
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="bigBox Aircondition_items_lists">
+			<div class="item">111</div>
+			<div class="item">111</div>
+			<div class="item">111</div>
+			<div class="item">111</div>
+			<div class="item">111</div>
+		</div>
+		
+		
+		<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/Slide.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			
+			//滚动加载更多
+			$(".Aircondition_items_lists").scroll(function() {
+				var $this = $(this),
+					itemLen = $('.Aircondition_items_lists .item').length,
+					viewH = $(this).height(), //可见高度
+					contentH = $(this).get(0).scrollHeight, //内容高度
+					scrollTop = $(this).scrollTop(); //滚动高度
+				if(contentH - viewH - scrollTop <= 10) {
+					var loading = layer.load(2);
+					setTimeout(function() {
+						var tem = "";
+						for(var i = 1; i <= 10; i++) {
+							tem += '<div class="item">我是上啦加载中的'+ (i+itemLen) +'</div>';							
+						}
+						$(".Aircondition_items_lists").append($(tem));
+						layer.close(loading);
+					}, 1000);
+				}
+			});
+		</script>
+	</body>
+</html>

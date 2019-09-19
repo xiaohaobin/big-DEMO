@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.fileList img{width: 100px;height: 100px;border: 1px solid #ddd;}
+			.img_btn_box{text-align: center;margin-top: 10px;}
+			.fileList li{width: fit-content;margin-top: 20px;margin-left: 20px;}
+			.fileList ul{display: flex;}
+		</style>
+	</head>
+
+	<body>
+		<h3>文件上传：</h3> 选择一个文件上传: <br />
+		<form action="#" method="post" enctype="multipart/form-data" id="form">
+			<input type="file" name="image" size="50" />
+			<br />
+			<input type="button" value="上传文件" onclick="fileUploadFn()"/>
+		</form>
+		<div class="fileList">
+			<ul>
+				<li>
+					<div><img src="../public/images/img/bigPower.png" alt="" /></div>
+					<div class="img_btn_box">
+						<button type="button">删除</button>
+					</div>
+				</li>
+				<li>
+					<div><img src="../public/images/img/bigPower.png" alt="" /></div>
+					<div class="img_btn_box">
+						<button type="button">删除</button>
+					</div>
+				</li>
+			</ul>
+		</div>
+		
+		
+		<script type="text/javascript">
+			function fileUploadFn(){
+				var formData = new FormData();
+//			    var f = $("#form")[0];
+//			    console.log(f.files);
+//			    var file = f.files[0];
+			    //var ff = document.getElementById('form')[0].files[0];
+			    var ff = $("input[type=file]")[0].files[0];
+			    console.log(ff,"files obj");
+			    formData.append("image", ff);
+				
+				$.ajax({
+					type:"post",
+					url:"/file_upload",
+					data:formData,
+//					dataType:'json',
+					async: false,
+					cache: false,
+					contentType: false,
+					processData: false,
+					timeout: 10000,	
+					success:function(data){
+						console.log(data,"req success");
+						window.location.reload();
+					}
+				});
+			}
+			
+			getlist();
+			
+			function getlist(){
+				$.ajax({
+					type:"get",
+					url:"/list",
+					data:{},
+					dataType:'json',
+					async: true,
+					timeout: 10000,	
+					success:function(data){
+						console.log(data,"list");
+						rlist(data.data);
+					}
+				});
+			}
+			
+			function rlist(data){
+				console.log(data);
+				var tem = "";				
+				for(var k=0;k<data.length;k++){
+					tem += '<li>'+
+							'<div><img src="http://'+ window.location.host +  data[k].file_name +'" alt="" /></div>'+
+							'<div class="img_btn_box">'+
+								'<button type="button">删除</button>'+
+							'</div>'+
+						'</li>';
+				}
+				$(".fileList ul").html(tem);
+			}
+		</script>
+	</body>
+
+</html>
