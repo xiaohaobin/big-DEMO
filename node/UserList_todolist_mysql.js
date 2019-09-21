@@ -111,6 +111,7 @@ function backSucc(){
  * @param {Number} p 接收数据，包含uid，pageNum，keyword
  * */
 function queryDatabase(p,callback){
+	//page_sql  
 	var pageNum = p.pageNum;
 	console.log(pageNum,"前台传递的pageNum");
 	if(p.keyword == ""){
