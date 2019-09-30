@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+		</style>
+	</head>
+	<body>
+		<div class="tableBox">
+			<table border="1">
+				<thead>
+					<tr>
+						<th rowspan="2">序号</th>
+						<th rowspan="2">设备序号</th>
+						<th rowspan="2">设备名</th>
+						<th rowspan="2">设备类型</th>
+						<th colspan="3">2012</th>
+						<th colspan="3">2013</th>
+						<th colspan="3">2014</th>
+					</tr>
+					<tr>
+						<th>发电量</th>
+						<th>co2</th>
+						<th>效益</th>
+						<th>发电量</th>
+						<th>co2</th>
+						<th>效益</th>
+						<th>发电量</th>
+						<th>co2</th>
+						<th>效益</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!--<tr>
+						<td>1</td>
+						<td>131231sdsd</td>
+						<td>刘张氏哦</td>
+						<td>true</td>
+						<td>12kw</td>
+						<td>120kg</td>
+						<td>11%</td>
+						<td>12kw</td>
+						<td>120kg</td>
+						<td>11%</td>
+						<td>12kw</td>
+						<td>120kg</td>
+						<td>11%</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>131231sdsd</td>
+						<td>刘张氏哦</td>
+						<td>true</td>
+						<td>12kw</td>
+						<td>120kg</td>
+						<td>11%</td>
+						<td>12kw</td>
+						<td>120kg</td>
+						<td>11%</td>
+						<td>12kw</td>
+						<td>120kg</td>
+						<td>11%</td>
+					</tr>-->
+				</tbody>
+			</table>
+		</div>
+		
+		<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var resData = [
+				{
+					"sn":"p234s234",//设备序列号
+					"alias":"设备1号",//设备名
+					"devType":"类型1",
+					"2018-12-12":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					},
+					"2018-12-13":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					},
+					"2018-12-14":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					}
+				},
+				{
+					"sn":"p234s234",//设备序列号
+					"alias":"设备1号",//设备名
+					"devType":"类型1",
+					"2018-12-12":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					},
+					"2018-12-13":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					},
+					"2018-12-14":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					}
+				},{
+					"sn":"p234s234",//设备序列号
+					"alias":"设备1号",//设备名
+					"devType":"类型1",
+					"2018-12-12":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					},
+					"2018-12-13":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					},
+					"2018-12-14":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					}
+				},
+				{
+					"sn":"p234s234",//设备序列号
+					"alias":"设备1号",//设备名
+					"devType":"类型1",
+					"2018-12-12":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					},
+					"2018-12-13":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					},
+					"2018-12-14":{
+						"energy":10,//发电量
+						"co2":12,
+						"benifit":1000//效益
+					}
+				},
+			];
+			
+			//渲染图表
+			renderTable(resData);
+			
+			//渲染表格
+			function renderTable(data){
+				//返回头部
+				var otr = data[0];
+				var thead = ""; 
+				var th_1 = "";
+				var th_2 = ""; 
+				for(var k in otr){
+					th_1 += backTh1(k);
+					th_2 += backTh2(k);
+				}
+				var tr_1 = '<tr><th rowspan="2">序号</th>' + th_1 + '</tr>';
+			  	thead = tr_1 + '<tr>'+ th_2 +'</tr>';
+			  	
+			  	$(".tableBox table thead").html(thead);
+			  	
+			  	//返回body
+			  	var tbody_tr = "";
+			  	for(var i=0;i<data.length;i++){
+			  		tbody_tr += '<tr>'+
+						'<td>'+ (i+1) +'</td>'+
+						'<td>'+ data[i].sn +'</td>'+
+						'<td>'+ data[i].alias +'</td>'+
+						'<td>'+ data[i].devType +'</td>'+
+						backDateData(data[i]) + 
+					'</tr>';
+			  	}
+			  	$(".tableBox table tbody").html(tbody_tr);
+			}
+			
+			//返回表头参数html（设备序列号，设备名，设备类型）
+			function backTh1(k){
+				if(k == "sn"){
+					return '<th rowspan="2">设备序列号</th>';
+				}else if(k == "alias"){
+					return '<th rowspan="2">设备名称</th>';
+				}else if(k == "devType"){
+					return '<th rowspan="2">设备类型</th>';
+				}else{
+					return '<th colspan="3" class="date_th">'+ k +'</th>';
+				}
+			}
+			
+			function backTh2(k){
+				if(k == "sn" || k == "alias" || k == "devType"){
+					return "";
+				}else{
+					var ths = '<th>发电量</th><th>co2</th><th>效益</th>';
+					return ths;
+				}
+			}
+			
+			//根据表头返回指定的日期字段数据
+			function backDateData(oData){
+				var tem = "";
+				var len = $(".tableBox table thead .date_th").length;
+				for(var k in oData){
+					for(var i=0;i<len;i++){
+						if(k == $(".tableBox table thead .date_th").eq(i).text()){
+							tem += '<td>'+ oData[k].energy +'</td><td>'+ oData[k].co2 +'</td><td>'+ oData[k].benifit +'</td>';
+						}
+					}
+				}
+				return tem;
+				
+			}
+		</script>
+	</body>
+</html>
