@@ -255,11 +255,11 @@
 					createRectFn:function(svg){
 						var _this = this;
 						if(svg){
-							_this.svg_g = d3.select("#mainView").append("g")
+							_this.svg_g = d3.select("#mainView").call(_this.zoom).append("g")
 								.attr("id","svg_g")
 								.attr("width",_this.mainW)
 								.attr("height",_this.mainH)
-								.call(_this.zoom)								
+//								.call(_this.zoom)								
 //								.append("g");
 							
 //								d3.select("#svg_g").selectAll("a")
