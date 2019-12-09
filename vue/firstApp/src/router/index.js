@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+
 import HelloWorld from '@/components/HelloWorld'
 import demo1 from '@/components/demo1'
 import bigChild from '@/components/bigChild'
 import routerParam from '@/components/routerParam'
 import routerParam2 from '@/components/routerParam2'
-
 import demoChild1 from '@/components/demoChild1'
 import demoChild2 from '@/components/demoChild2'
 import demoChild3 from '@/components/demoChild3'
+import i18 from '@/components/i18'
 
 Vue.use(Router)
 
@@ -69,6 +71,15 @@ export default new Router({
       component: routerParam2,
       beforeEnter:(to, from, next) => {//
         next();//继续执行函数
+      }
+    },
+    {
+      path: '/i18',
+      name: 'i18',
+      component: i18,
+      beforeEnter:(to, from, next) => {//
+        next();//继续执行函数
+        console.log("go on i18","i18");
       }
     },
   ]

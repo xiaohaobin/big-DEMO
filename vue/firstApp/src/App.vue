@@ -48,15 +48,14 @@
 
 
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Link</a></li>
+            <li>
+              <router-link to="/i18">i18 国际化demo</router-link>
+            </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lang <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
+                <li @click="switchLang('zh')"><a href="javascript:;">中文</a></li>      
+                <li @click="switchLang('en')"><a href="javascript:;">English</a></li>                    
               </ul>
             </li>
           </ul>
@@ -118,6 +117,10 @@ export default {
    methods: {
        showMsg(title){
          this.title = title;
+       },
+       //切换语言
+       switchLang(lang){
+         this.$i18n.locale = lang;
        }
    },
    watch: {
